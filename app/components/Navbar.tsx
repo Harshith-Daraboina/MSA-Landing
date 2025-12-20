@@ -118,7 +118,7 @@ const Navbar = () => {
               >
                 <div className="relative z-10">{item.name}</div>
                 <div className="absolute inset-0 rounded-full transition-all duration-400 transform scale-0 group-hover:scale-100 bg-white/10 backdrop-blur-sm border border-white/20"></div>
-                <div className="absolute bottom-0 left-1/2 w-0 h-0.5 transition-all duration-400 group-hover:w-full group-hover:left-0 bg-gradient-to-r from-blue-400 to-purple-400"></div>
+                <div className="absolute bottom-0 left-1/2 w-0 h-0.5 transition-all duration-400 group-hover:w-[66%] group-hover:left-[18%] bg-gradient-to-r from-blue-400 to-purple-400"></div>
               </a>
             ))}
             
