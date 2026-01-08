@@ -27,6 +27,71 @@ const Events: React.FC = () => {
   const animationFrameRef = useRef<number | null>(null);
   const autoPlayRef = useRef<NodeJS.Timeout | null>(null);
 
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+  
+  // Sample event images (replace with your actual event images)
+  const eventImages = [
+    "/images/IMG_1.jpg",
+    // "/images/IMG_3.jpg",
+    "/images/IMG_4.jpg",
+    "/images/IMG_2.jpg",
+    "/images/IMG_6.jpg",
+    "/images/IMG_5.jpg",
+  ];
+
+  const eventTitles = [
+    "IOT Workshop 2024",
+    // "Hackathon Finals",
+    "LOGIC LEAGUE 1.0",
+    "Community Meetup",
+    "GET TO GEATHER ",
+    "CODING CONTEST"
+  ];
+
+  const eventDescriptions = [
+    "Hands-on workshop on Internet of Things and smart devices(ESP8266, Raspberry Pi, etc.)",
+    // "Annual coding competition with exciting prizes",
+    "Competitive programming event for all skill levels",
+    "Networking event with industry professionals",
+    "Fun activities and games to foster community spirit",
+    "Competitive coding event to test your skills"
+  ];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      goToNextSlide();
+    }, 5000); // Change slide every 5 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const goToSlide = (index: number) => {
+    if (index === currentSlide) return;
+    
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentSlide(index);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const goToNextSlide = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev + 1) % eventImages.length);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
+  const goToPrevSlide = () => {
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setCurrentSlide((prev) => (prev - 1 + eventImages.length) % eventImages.length);
+      setIsTransitioning(false);
+    }, 300);
+  };
+
   const events: Event[] = [
     {
       title: "Empowering Your Tech Journey",
@@ -515,7 +580,7 @@ const Events: React.FC = () => {
         <div className="absolute inset-0 scan-lines"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container my-10 mx-auto px-4 relative z-10">
         <div className="text-center mb-8 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-black mb-6">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400">
@@ -528,7 +593,88 @@ const Events: React.FC = () => {
             <div className="h-1 w-24 bg-gradient-to-r from-cyan-500 via-blue-500 to-purple-500 rounded-full animate-tech-underline"></div>
           </div>
           
-          {/* Calendar Integration */}
+          
+
+        {/* Event Slideshow */}
+        <div className="mb-20 animate-fade-in-up">
+          <div className="relative h-[600px] rounded-xl overflow-hidden shadow-2xl group border border-cyan-400/20">
+            <div className="absolute inset-0 flex transition-transform duration-700 ease-in-out">
+              {eventImages.map((image, index) => (
+                <div 
+                  key={index} 
+                  className="w-full h-full flex-shrink-0 relative transition-transform duration-700"
+                  style={{ 
+                    transform: `translateX(-${currentSlide * 100}%)`,
+                    opacity: index === currentSlide ? 1 : 0,
+                    transition: 'opacity 0.7s ease-in-out',
+                    position: 'absolute',
+                    top: 0,
+                    left: `${index * 100}%`
+                  }}
+                >
+                  <img 
+                    src={image} 
+                    alt={`Event ${index + 1}`} 
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
+                  <div className="absolute bottom-0 left-0 right-0 p-8 text-white">
+                    <h4 className="text-2xl font-bold mb-2 bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                      {eventTitles[index]}
+                    </h4>
+                    <p className="text-cyan-200 mb-4">{eventDescriptions[index]}</p>
+                    <div className="flex items-center">
+                      <div className="w-8 h-8 bg-cyan-600 rounded-full flex items-center justify-center mr-3">
+                        <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <span className="text-sm text-gray-300">MSA IIIT Dharwad Event</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Navigation buttons */}
+            <button 
+              onClick={goToPrevSlide}
+              className="absolute left-6 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-cyan-500/80 text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-sm"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button 
+              onClick={goToNextSlide}
+              className="absolute right-6 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-cyan-500/80 text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100 backdrop-blur-sm"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Indicators */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-3">
+              {eventImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => goToSlide(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentSlide ? 'bg-cyan-500 scale-125' : 'bg-white/60 hover:bg-white'
+                  }`}
+                ></button>
+              ))}
+            </div>
+
+            {/* Slide counter */}
+            <div className="absolute top-6 right-6 bg-black/60 text-white px-3 py-1 rounded-full text-sm backdrop-blur-sm">
+              {currentSlide + 1} / {eventImages.length}
+            </div>
+          </div>
+        </div>
+
+        {/* Calendar Integration */}
         <div className="mt-16 bg-gray-900/50 backdrop-blur-xl rounded-2xl p-6 border border-cyan-400/20">
           <h3 className="text-2xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
             Subscribe to Our Calendar
@@ -547,6 +693,7 @@ const Events: React.FC = () => {
             </div>
           </div>
         </div>
+
         </div>
         
         

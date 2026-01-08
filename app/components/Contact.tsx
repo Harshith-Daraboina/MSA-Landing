@@ -119,7 +119,7 @@ const Contact: React.FC = () => {
         <div className="absolute inset-0 scan-lines"></div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10" ref={containerRef}>
+      <div className="container my-10 mx-auto px-4 relative z-10" ref={containerRef}>
         {/* Header Section */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-black mb-6">

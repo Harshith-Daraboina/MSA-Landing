@@ -89,7 +89,7 @@ const About: React.FC = () => {
         <div className="absolute inset-0 scan-lines"></div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container my-10 mx-auto px-6 relative z-10">
         {/* Header Section */}
         <div className="text-center mb-16 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-black mb-6">
